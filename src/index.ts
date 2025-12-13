@@ -54,9 +54,11 @@ export class Scope {
     this.tag_name = name;
     this.children = [];
   }
+
   addChild(child: Scope | string) {
     this.children.push(child);
   }
+
   addText(text: string) {
     this.children.push(text);
   }
@@ -66,7 +68,6 @@ export class Scope {
     this.compile(writer);
     return writer.toString();
   }
-
 
   protected compile(writer: Writer) {
     this.addStart(writer);
@@ -93,6 +94,7 @@ export class Scope {
     line += ">";
     writer.putLine(line);
   }
+
   compileChildren(writer: Writer) {
     if (this.children.length === 0) {
       return;

@@ -1,6 +1,5 @@
 # IXEMEL
-
-[![Build Status](https://github.com/benediktZinn/IXEMEL/actions/workflows/ci.yml/badge.svg)](https://github.com/benediktZinn/IXEMEL/actions) [![Codecov](https://codecov.io/gh/benediktZinn/IXEMEL/branch/main/graph/badge.svg)](https://codecov.io/gh/benediktZinn/IXEMEL) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Codecov](https://codecov.io/gh/benediktZinn/IXEMEL/branch/main/graph/badge.svg)](https://codecov.io/gh/benediktZinn/IXEMEL) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
 
 IXEMEL is a lightweight TypeScript library for programmatically generating XML documents.
 
