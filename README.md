@@ -1,6 +1,6 @@
 # IXEMEL
 
-IXEMEL is a lightweight TypeScript library for programmatically generating XML documents with a clean, object-oriented API.
+IXEMEL is a lightweight TypeScript library for programmatically generating XML documents.
 
 ## Features
 
@@ -77,7 +77,7 @@ console.log(scope.toString(4));
 
 ### `Scope`
 
-The main class for creating XML elements.
+Default XML elements.
 
 #### Constructor
 - `new Scope(name: string, tag_fields?: Map<string, string|number>)`
@@ -86,10 +86,6 @@ The main class for creating XML elements.
 - `addChild(child: Scope | string)`: Add a nested element or text node
 - `addText(text: string)`: Add a text node (automatically escaped)
 - `toString(indent_size?: number)`: Generate the XML string representation
-
-### `Writer`
-
-A helper class for managing indentation and output generation (used internally).
 
 ## License
 
