@@ -13,7 +13,7 @@ IXEMEL is a lightweight TypeScript library for programmatically generating XML d
 ## Installation
 
 ```bash
-npm install benediktZinn/IXEMEL
+npm install BenediktZinn/IXEMEL
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm install benediktZinn/IXEMEL
 ### Basic Example
 
 ```typescript
-import { Scope } from 'benediktZinn/IXEMEL';
+import { Scope } from 'benediktzinn/ixemel';
 
 // Create a simple self-closing tag
 const scope = new Scope("test", new Map([["a", "1"]]));
@@ -32,7 +32,7 @@ console.log(scope.toString());
 ### Nested Elements
 
 ```typescript
-import { Scope } from 'benediktZinn/IXEMEL';
+import { Scope } from 'benediktzinn/ixemel';
 
 // Create nested elements
 const parent = new Scope("parent", new Map([["id", "1"]]));
@@ -49,22 +49,22 @@ console.log(parent.toString());
 ### Text Content
 
 ```typescript
-import { Scope } from 'benediktZinn/IXEMEL';
+import { Scope } from 'benediktzinn/ixemel';
 
-// Add text content (automatically escaped)
+// Add text content (automatically escaped for &, <, >)
 const paragraph = new Scope("p");
-paragraph.addText("Tom & Jerry <3>");
+paragraph.addText("Tom & Jerry <3> \" '");
 console.log(paragraph.toString());
 // Output:
 // <p>
-//   Tom &amp; Jerry &lt;3&gt;
+//   Tom &amp; Jerry &lt;3&gt; " '
 // </p>
 ```
 
 ### Custom Indentation
 
 ```typescript
-import { Scope } from 'benediktZinn/IXEMEL';
+import { Scope } from 'benediktzinn/ixemel';
 
 const scope = new Scope("root");
 scope.addChild(new Scope("child"));
