@@ -1,76 +1,120 @@
+export class Writer {
+  state: string;
+  indent: number;
+  indent_size: number;
 
-export class Writer{
-    state:string;
+  constructor(indent_size?: number) {
+    this.state = "";
+    this.indent = 0;
+    this.indent_size = indent_size ?? 2;
+  }
 
-    constructor(){
-      this.state = "";
-    }
 
+  put(s: string, indent?: number) {
+    const indents = " ".repeat(this.indent_size);
 
-  putIndent(s: string, indent: number){
-    
-    this.state += " ".repeat(indent);
+    this.state += indents.repeat(indent ?? this.indent);
     this.state += s;
   }
 
-  putLine(l: string, indent: number){
-    this.putIndent(l, indent);
-    this.state +="\n";
+  putLine(l: string, indent?: number) {
+    this.put(l, indent);
+    this.state += "\n";
   }
-  
-  toString(){
+
+  toString() {
     return this.state;
   }
 }
 
-
-export interface WriterConfiguration{
-  indent_size: number;
-  
+function escapeAttr(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
-export class Scope{
-  indent_level: number;
-  tag_fields: Map<string, string>;
-  tag_name: string;
-  children: Scope[];
+function escapeText(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
 
-  constructor(name: string, tag_fields: Map<string, string>, indent_level: number, writer: Writer){
-    this.indent_level = indent_level;
-    this.tag_fields = tag_fields;
+export class Scope {
+  tag_fields: Map<string, string|number>;
+  tag_name: string;
+  // allow text nodes (string) or nested Scopes
+  children: (Scope | string)[];
+
+  constructor(name: string, tag_fields?: Map<string, string|number>) {
+    this.tag_fields = tag_fields ?? new Map();
     this.tag_name = name;
     this.children = [];
-    this.writer = writer;
+  }
+  addChild(child: Scope | string) {
+    this.children.push(child);
+  }
+  addText(text: string) {
+    this.children.push(text);
   }
 
-  compile(){
-    addStart();
-    compileChildren();
-    addEnd();
+  toString(indent_size?: number) {
+    const writer = new Writer(indent_size);
+    this.compile(writer);
+    return writer.toString();
   }
 
-  addStart(){
-    const line = ``;
-    line += `<${this.tag_name} `;
-    for (const [key,value] of this.tag_fields){
-      line +=`${key}=${value} `;
+
+  protected compile(writer: Writer) {
+    this.addStart(writer);
+    this.compileChildren(writer);
+    this.addEnd(writer);
+  }
+
+  addStart(writer: Writer) {
+    let line = ``;
+    line += `<${this.tag_name}`;
+    for (const [key, value] of this.tag_fields) {
+      if (value === "") {
+        // valueless / boolean attribute
+        line += ` ${key}`;
+      } else if (typeof value === "string") {
+        line += ` ${key}="${escapeAttr(value)}"`;
+      } else {
+        line += ` ${key}="${value}"`;
+      }
     }
-    if (this.children.length === 0){
+    if (this.children.length === 0) {
       line += "/";
     }
-    line += ">"
-    writer.putLine(line, this.indent_level);
+    line += ">";
+    writer.putLine(line);
   }
-
-
-
-  addEnd(){
-    if (this.children.length === 0){
+  compileChildren(writer: Writer) {
+    if (this.children.length === 0) {
       return;
     }
-    let const = `</${this.tag_name}>`;
-    this.writer.putLine(line, this.indent_level);
+    writer.indent += 1;
+    for (const child of this.children) {
+      if (typeof child === 'string') {
+        // text node
+        writer.putLine(escapeText(child), writer.indent);
+      } else {
+        child.compile(writer);
+      }
+
+    }
+    writer.indent -= 1;
   }
 
+  addEnd(writer: Writer) {
+    if (this.children.length === 0) {
+      return;
+    }
+    const line = `</${this.tag_name}>`;
+    writer.putLine(line);
+  }
 }
-
