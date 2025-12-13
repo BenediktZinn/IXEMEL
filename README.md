@@ -1,0 +1,96 @@
+# IXEMEL
+
+IXEMEL is a lightweight TypeScript library for programmatically generating XML documents with a clean, object-oriented API.
+
+## Features
+
+- Simple API for building XML structures
+- Automatic XML escaping for both text content and attributes
+- Support for nested elements and text nodes
+- Configurable indentation
+- Type-safe TypeScript implementation
+
+## Installation
+
+```bash
+npm install benediktZinn/IXEMEL
+```
+
+## Usage
+
+### Basic Example
+
+```typescript
+import { Scope } from 'benediktZinn/IXEMEL';
+
+// Create a simple self-closing tag
+const scope = new Scope("test", new Map([["a", "1"]]));
+console.log(scope.toString());
+// Output: <test a="1"/>
+```
+
+### Nested Elements
+
+```typescript
+import { Scope } from 'benediktZinn/IXEMEL';
+
+// Create nested elements
+const parent = new Scope("parent", new Map([["id", "1"]]));
+const child = new Scope("child", new Map([["name", "example"]]));
+parent.addChild(child);
+
+console.log(parent.toString());
+// Output:
+// <parent id="1">
+//   <child name="example"/>
+// </parent>
+```
+
+### Text Content
+
+```typescript
+import { Scope } from 'benediktZinn/IXEMEL';
+
+// Add text content (automatically escaped)
+const paragraph = new Scope("p");
+paragraph.addText("Tom & Jerry <3>");
+console.log(paragraph.toString());
+// Output:
+// <p>
+//   Tom &amp; Jerry &lt;3&gt;
+// </p>
+```
+
+### Custom Indentation
+
+```typescript
+import { Scope } from 'benediktZinn/IXEMEL';
+
+const scope = new Scope("root");
+scope.addChild(new Scope("child"));
+
+// Use 4 spaces for indentation instead of default 2
+console.log(scope.toString(4));
+```
+
+## API
+
+### `Scope`
+
+The main class for creating XML elements.
+
+#### Constructor
+- `new Scope(name: string, tag_fields?: Map<string, string|number>)`
+
+#### Methods
+- `addChild(child: Scope | string)`: Add a nested element or text node
+- `addText(text: string)`: Add a text node (automatically escaped)
+- `toString(indent_size?: number)`: Generate the XML string representation
+
+### `Writer`
+
+A helper class for managing indentation and output generation (used internally).
+
+## License
+
+MIT
