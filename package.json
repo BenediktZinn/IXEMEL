@@ -1,5 +1,5 @@
 {
-  "name": "ixemel",
+  "name": "@BenediktZinn/ixemel",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",
@@ -17,8 +17,9 @@
     "typedoc": "^0.28.14"
   },
   "dependencies": {
-    "jszip": "^3.10.1",
-    "typescript": "^5.9.3",
-    "xml2js": "^0.6.2"
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
