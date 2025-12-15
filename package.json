@@ -1,5 +1,5 @@
 {
-  "name": "@BenediktZinn/ixemel",
+  "name": "@benediktzinn/ixemel",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",
@@ -18,8 +18,5 @@
   },
   "dependencies": {
     "typescript": "^5.9.3"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   }
 }
